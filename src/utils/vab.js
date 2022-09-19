@@ -4,7 +4,7 @@ import { Loading, Message, MessageBox, Notification } from 'element-ui'
 import HeyUI from 'heyui'
 import store from '@/store'
 import { getAccessToken } from '@/utils/accessToken'
-
+import i18n from '@/plugins/i18n'
 import 'heyui/themes/index.base.less'
 
 
@@ -19,6 +19,9 @@ const install = (Vue, opts = {}) => {
   Vue.prototype.$baseTitle = (() => {
     return title
   })()
+  Vue.prototype.$yesOrNo = (tag) => {
+    return i18n.t(tag ? 'public.yes' : 'public.no')
+  }
   /* 全局加载层 */
   Vue.prototype.$baseLoading = (index, text) => {
     let loading

@@ -10,7 +10,7 @@
         :icon-class="item.meta.icon"
         class="vab-remix-icon"
       />
-      <span>{{ item.meta.title }}</span>
+      <span>{{ routeTitle(item.meta) }}</span>
       <el-tag
         v-if="item.meta && item.meta.badge"
         type="danger"
@@ -49,6 +49,9 @@
       },
     },
     methods: {
+      routeTitle(meta){
+        return this.$i18n.locale === 'zh' ? meta.title : (meta.enTitle || 'Default')
+      },
       handlePath(routePath) {
         if (isExternal(routePath)) {
           return routePath

@@ -7,7 +7,7 @@
           v-model="query.blurry"
           clearable
           size="small"
-          placeholder="模糊搜索"
+          :placeholder="$t('crud.fuzzySearch')"
           style="width: 200px"
           class="filter-item"
           @keyup.enter.native="crud.toQuery"
@@ -36,11 +36,17 @@
       <el-table-column type="selection" width="55" />
       <el-table-column
         :show-overflow-tooltip="true"
-        label="菜单标题"
+        :label="$t('view.menuMan.title')"
         width="125px"
         prop="title"
       />
-      <el-table-column prop="icon" label="图标" align="center" width="60px">
+      <el-table-column
+        :show-overflow-tooltip="true"
+        :label="$t('view.menuMan.enTitle')"
+        width="125px"
+        prop="enTitle"
+      />
+      <el-table-column prop="icon" :label="$t('view.menuMan.icon')" align="center" width="60px">
         <template slot-scope="scope">
           <vab-remix-icon
             :icon-class="scope.row.icon ? scope.row.icon : ''"
@@ -48,46 +54,44 @@
           />
         </template>
       </el-table-column>
-      <el-table-column prop="sort" align="center" label="排序">
+      <el-table-column prop="sort" align="center" :label="$t('view.menuMan.sort')">
         <template slot-scope="scope">
           {{ scope.row.sort }}
         </template>
       </el-table-column>
       <el-table-column
         :show-overflow-tooltip="true"
-        prop="permissionStr"
-        label="权限标识"
+        prop="permission"
+        :label="$t('view.menuMan.permissionMark')"
       />
       <el-table-column
         :show-overflow-tooltip="true"
         prop="component"
-        label="组件路径"
+        :label="$t('view.menuMan.component')"
       />
-      <el-table-column prop="isLink" label="外链" width="75px">
+      <el-table-column prop="isLink" :label="$t('view.menuMan.link')" width="115px">
         <template slot-scope="scope">
-          <span v-if="scope.row.isLink">是</span>
-          <span v-else>否</span>
+          {{  $yesOrNo(scope.row.isLink) }}
         </template>
       </el-table-column>
-      <el-table-column prop="cache" label="缓存" width="75px">
+      <el-table-column prop="cache" :label="$t('view.menuMan.cache')" width="75px">
         <template slot-scope="scope">
-          <span v-if="scope.row.cache">是</span>
-          <span v-else>否</span>
+          {{  $yesOrNo(scope.row.cache) }}
+
         </template>
       </el-table-column>
-      <el-table-column prop="hidden" label="可见" width="75px">
+      <el-table-column prop="hidden" :label="$t('view.menuMan.visible')" width="75px">
         <template slot-scope="scope">
-          <span v-if="scope.row.hidden">否</span>
-          <span v-else>是</span>
+          {{  $yesOrNo(!scope.row.hidden) }}
         </template>
       </el-table-column>
-      <el-table-column prop="createTime" label="创建日期" width="150px" />
-      <el-table-column label="操作" width="130px" align="center" fixed="right">
+      <el-table-column prop="createTime" :label="$t('public.createTime')" width="150px" />
+      <el-table-column :label="$t('public.op')" width="130px" align="center" fixed="right">
         <template slot-scope="scope">
           <udOperation
             :data="scope.row"
             :permission="permission"
-            msg="确定删除吗,如果存在下级节点则一并删除，此操作不能撤销！"
+            :msg="$t('view.menuMan.delTips')"
           />
         </template>
       </el-table-column>
@@ -99,7 +103,7 @@
       :before-close="crud.cancelCU"
       :visible.sync="crud.status.cu > 0"
       :title="crud.status.title"
-      width="580px"
+      width="700px"
     >
       <el-form
         ref="form"
@@ -107,18 +111,18 @@
         :model="form"
         :rules="rules"
         size="small"
-        label-width="80px"
+        label-width="130px"
       >
-        <el-form-item label="菜单类型" prop="type">
-          <el-radio-group v-model="form.type" size="mini" style="width: 178px">
-            <el-radio-button label="0">目录</el-radio-button>
-            <el-radio-button label="1">菜单</el-radio-button>
-            <el-radio-button label="2">按钮</el-radio-button>
+        <el-form-item :label="$t('view.menuMan.menuType')" prop="type">
+          <el-radio-group v-model="form.type" size="mini" style="width: 228px">
+            <el-radio-button label="0">{{$t('view.menuMan.catalog')}}</el-radio-button>
+            <el-radio-button label="1">{{ $t('view.menuMan.menu') }}</el-radio-button>
+            <el-radio-button label="2">{{ $t('view.menuMan.button') }}</el-radio-button>
           </el-radio-group>
         </el-form-item>
         <el-form-item
           v-show="form.type.toString() !== '2'"
-          label="菜单图标"
+          :label="$t('view.menuMan.icon')"
           prop="icon"
         >
           <el-popover
@@ -131,8 +135,8 @@
             <el-input
               slot="reference"
               v-model="form.icon"
-              style="width: 450px"
-              placeholder="点击选择图标"
+              style="width: 499px"
+              :placeholder="$t('view.menuMan.selectIcon')"
               readonly
             >
               <vab-remix-icon
@@ -147,134 +151,148 @@
         </el-form-item>
         <el-form-item
           v-show="form.type.toString() !== '2'"
-          label="外链菜单"
+          :label="$t('view.menuMan.linkMenu')"
           prop="isLink"
         >
-          <el-radio-group v-model="form.isLink" size="mini">
-            <el-radio-button label="true">是</el-radio-button>
-            <el-radio-button label="false">否</el-radio-button>
+          <el-radio-group v-model="form.isLink" size="mini" style="width: 185px;">
+
+            <el-radio-button label="true">{{$t('public.yes')}}</el-radio-button>
+            <el-radio-button label="false">{{$t('public.no')}}</el-radio-button>
           </el-radio-group>
         </el-form-item>
         <el-form-item
           v-show="form.type.toString() === '1'"
-          label="菜单缓存"
+          :label="$t('view.menuMan.cache')"
           prop="cache"
         >
           <el-radio-group v-model="form.cache" size="mini">
-            <el-radio-button label="true">是</el-radio-button>
-            <el-radio-button label="false">否</el-radio-button>
+            <el-radio-button label="true">{{$t('public.yes')}}</el-radio-button>
+            <el-radio-button label="false">{{$t('public.no')}}</el-radio-button>
           </el-radio-group>
         </el-form-item>
         <el-form-item
           v-show="form.type.toString() !== '2'"
-          label="菜单可见"
+          :label="$t('view.menuMan.visible')"
           prop="hidden"
         >
-          <el-radio-group v-model="form.hidden" size="mini">
-            <el-radio-button label="false">是</el-radio-button>
-            <el-radio-button label="true">否</el-radio-button>
+          <el-radio-group v-model="form.hidden" size="mini" style="width: 185px">
+            <el-radio-button label="false">{{$t('public.yes')}}</el-radio-button>
+            <el-radio-button label="true">{{$t('public.no')}}</el-radio-button>
           </el-radio-group>
         </el-form-item>
         <el-form-item
           v-if="form.type.toString() !== '2'"
-          label="菜单标题"
+          :label="$t('view.menuMan.title')"
           prop="title"
         >
           <el-input
             v-model="form.title"
             :style="
-              form.type.toString() === '0' ? 'width: 450px' : 'width: 178px'
+              form.type.toString() === '0' ? 'width: 499px' : 'width: 185px'
             "
-            placeholder="菜单标题"
+            :placeholder="$t('view.menuMan.title')"
+          />
+        </el-form-item>
+        <el-form-item
+          v-if="form.type.toString() !== '2'"
+          :label="$t('view.menuMan.enTitle')"
+          prop="enTitle"
+        >
+          <el-input
+            v-model="form.enTitle"
+            :style="
+              form.type.toString() === '0' ? 'width: 499px' : 'width: 185px'
+            "
+            :placeholder="$t('view.menuMan.enTitle')"
           />
         </el-form-item>
         <el-form-item
           v-if="form.type.toString() === '2'"
-          label="按钮名称"
+          :label="$t('view.menuMan.buttonName')"
           prop="title"
         >
           <el-input
             v-model="form.title"
-            placeholder="按钮名称"
-            style="width: 178px"
+            :placeholder="$t('view.menuMan.buttonName')"
+            style="width: 185px"
           />
         </el-form-item>
         <el-form-item
           v-show="form.type.toString() !== '0'"
-          label="权限标识"
+          :label="$t('view.menuMan.permissionMark')"
           prop="permission"
         >
           <el-input
             v-model="form.permissionStr"
             :disabled="form.isLink.toString() === 'true'"
-            placeholder="权限标识"
-            style="width: 178px"
+            :placeholder="$t('view.menuMan.permissionMark')"
+            style="width: 185px"
           />
         </el-form-item>
         <el-form-item
           v-if="form.type.toString() !== '2'"
-          label="路由地址"
+          :label="$t('view.menuMan.routePath')"
           prop="path"
         >
           <el-input
             v-model="form.path"
-            placeholder="路由地址"
-            style="width: 178px"
+            :label="$t('view.menuMan.routePath')"
+            style="width: 185px"
           />
         </el-form-item>
-        <el-form-item label="菜单排序" prop="menuSort">
+        <el-form-item  :label="$t('view.menuMan.sort')" prop="menuSort">
           <el-input-number
             v-model.number="form.sort"
             :min="0"
             :max="999"
             controls-position="right"
-            style="width: 178px"
+            style="width: 185px"
           />
         </el-form-item>
         <el-form-item
           v-show="
             form.isLink.toString() !== 'true' && form.type.toString() === '1'
           "
-          label="组件名称"
+          :label="$t('view.menuMan.componentName')"
           prop="name"
         >
           <el-input
             v-model="form.name"
-            style="width: 178px"
-            placeholder="匹配组件内Name字段"
+            style="width: 185px"
+            :label="$t('view.menuMan.componentName')"
           />
         </el-form-item>
         <el-form-item
           v-show="
             form.isLink.toString() !== 'true' && form.type.toString() === '1'
           "
-          label="组件路径"
+          :label="$t('view.menuMan.component')"
           prop="component"
         >
           <el-input
             v-model="form.component"
-            style="width: 178px"
-            placeholder="组件路径"
+            style="width: 185px"
+            :label="$t('view.menuMan.component')"
           />
         </el-form-item>
-        <el-form-item label="上级类目" prop="pid">
+        <el-form-item :label="$t('view.menuMan.superiorMenu')" prop="pid">
           <treeselect
             v-model="form.pid"
             :options="menus"
             :load-options="loadMenus"
-            style="width: 450px"
-            placeholder="选择上级类目"
+            style="width: 499px"
+            :placeholder="$t('view.menuMan.superiorMenu')"
           />
         </el-form-item>
       </el-form>
       <div slot="footer" class="dialog-footer">
-        <el-button type="text" @click="crud.cancelCU">取消</el-button>
+        <el-button type="text" @click="crud.cancelCU">{{$t('public.cancel')}}</el-button>
         <el-button
           :loading="crud.status.cu === 2"
           type="primary"
           @click="crud.submitCU"
         >
-          确认
+          {{$t('public.confirm')}}
         </el-button>
       </div>
     </el-dialog>
@@ -293,6 +311,7 @@
   import { LOAD_CHILDREN_OPTIONS } from '@riophae/vue-treeselect'
   import DateRangePicker from '@/components/DateRangePicker'
   import { get } from '@/api/crud/crud'
+  import i18n from "@/plugins/i18n";
   const defaultForm = {
     id: null,
     title: null,
@@ -312,7 +331,7 @@
   export default {
     name: 'Menu',
     cruds() {
-      return CRUD({ title: '菜单', url: 'menu', crudMethod: crudMenu })
+      return CRUD({ title: 'view.menuMan.crudTitle', url: 'menu', crudMethod: crudMenu })
     },
     mixins: [presenter(), header(), form(defaultForm), crud()],
     components: {
@@ -323,6 +342,37 @@
       Treeselect,
       IconSelect,
     },
+    watch:{
+      'form.type'(){
+        try{
+          this.$refs.form.clearValidate()
+        }catch (e){}
+      }
+    },
+    computed:{
+      rules(){
+        return{
+          path: [
+            { required: true, message: i18n.t('view.menuMan.error.path'), trigger: 'blur' }
+          ],
+          title: [
+            { required: true, message: i18n.t('view.menuMan.error.title'), trigger: 'blur' }
+          ],
+          enTitle: [
+            { required: true, message: i18n.t('view.menuMan.error.enTitle'), trigger: 'blur' }
+          ],
+          sort: [
+            { required: true, message: i18n.t('view.menuMan.error.sort'), trigger: 'blur' }
+          ],
+          pid: [
+            { required: true, message: i18n.t('view.menuMan.error.superiorMenu'), trigger: 'blur' }
+          ],
+          component: [
+            { required: true, message: i18n.t('view.menuMan.error.component'), trigger: 'blur' }
+          ],
+        }
+      }
+    },
     data() {
       return {
         permission: {
@@ -330,8 +380,7 @@
           edit: 'menu:edit',
           del: 'menu:del',
         },
-        rules: {},
-        menus: [],
+          menus: [],
       }
     },
     methods: {
@@ -344,19 +393,21 @@
           }
           this.queryMenuTree(form.id)
         } else {
-          this.menus.push({ id: 0, label: '顶级类目', children: null })
+          this.menus.push({ id: 0, label: this.$t('view.menuMan.topMenu'), children: null })
         }
       },
       queryMenuTree(id) {
+        let that = this
         get('/menu/queryMenuTree', { id: id }).then((res) => {
           const date = res.data
           this.buildMenu(date)
-          this.menus = [{ id: 0, label: '顶级类目', children: date }]
+          this.menus = [{ id: 0, label: that.$t('view.menuMan.topMenu'), children: date }]
         })
       },
       buildMenu(depts) {
+        let that = this
         depts.forEach((data) => {
-          data.label = data.title
+          data.label = that.$i18n.locale === 'zh' ? data.title: data.enTitle
           data.isLeaf = data.hasChildren
           if (data.children) {
             this.buildMenu(data.children)
@@ -367,10 +418,11 @@
         })
       },
       loadMenus({ action, parentNode, callback }) {
+        let that = this
         if (action === LOAD_CHILDREN_OPTIONS) {
           get('/menu', { pid: parentNode.id }).then((res) => {
             parentNode.children = res.data.content.map(function (obj) {
-              obj.label = obj.title
+              obj.label = that.$i18n.locale === 'zh' ? obj.title : obj.enTitle
               if (obj.hasChildren) {
                 obj.children = null
               }

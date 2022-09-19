@@ -13,7 +13,7 @@ import {
 } from '@/config'
 import store from '@/store'
 import router from '@/router'
-import { isArray } from '@/utils/validate'
+import {isArray} from '@/utils/validate'
 
 let loadingInstance
 
@@ -33,10 +33,11 @@ const handleCode = (code, msg) => {
       }
       break
     case noPermissionCode:
-      router.push({ path: '/401' }).catch(() => {})
+      router.push({path: '/401'}).catch(() => {
+      })
       break
     default:
-      Vue.prototype.$baseMessage(msg || `后端接口${code}异常`, 'error')
+      Vue.prototype.$baseMessage(msg || `后端接口${code || 500}异常`, 'error')
       break
   }
 }
@@ -75,8 +76,8 @@ instance.interceptors.response.use(
       loadingInstance.close()
     }
 
-    const { data, config } = response
-    const { code, msg } = data
+    const {data, config} = response
+    const {code, msg} = data
     // 操作正常Code数组
     const codeVerificationArray = isArray(successCode)
       ? [...successCode]
@@ -92,19 +93,19 @@ instance.interceptors.response.use(
       handleCode(code, msg)
       return Promise.reject(
         'Basic Admin请求异常拦截:' +
-          JSON.stringify({ url: config.url, code, msg }) || 'Error'
+        JSON.stringify({url: config.url, code, msg}) || 'Error'
       )
     }
   },
   (error) => {
     if (loadingInstance) loadingInstance.close()
-    const { response, message } = error
+    const {response, message} = error
     if (error.response && error.response.data) {
-      const { status, data } = response
+      const {status, data} = response
       handleCode(status, data.msg || message)
       return Promise.reject(error)
     } else {
-      let { message } = error
+      let {message} = error
       if (message === 'Network Error') {
         message = '后端接口连接异常'
       }

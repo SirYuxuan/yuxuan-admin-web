@@ -23,7 +23,7 @@
               vertical-align: middle;
             "
           >
-         
+
             <vab-remix-icon
               v-if="item.meta && item.meta.icon"
               :icon-class="item.meta.icon"
@@ -31,14 +31,14 @@
             />
           </div>
 
-          {{ item.meta.title }}
+          {{ routeTitle(item.meta) }}
         </template>
       </el-tab-pane>
     </el-tabs>
 
     <el-dropdown @command="handleCommand">
       <span style="cursor: pointer">
-        更多操作
+        {{ $t('public.moreOperations') }}
         <i class="el-icon-arrow-down el-icon--right"></i>
       </span>
       <el-dropdown-menu slot="dropdown" class="tabs-more">
@@ -48,19 +48,19 @@
         </el-dropdown-item> -->
         <el-dropdown-item command="closeOtherstabs">
           <vab-icon :icon="['fas', 'times-circle']" />
-          关闭其他
+          {{ $t('public.closeOther') }}
         </el-dropdown-item>
         <el-dropdown-item command="closeLefttabs">
           <vab-icon :icon="['fas', 'arrow-alt-circle-left']"></vab-icon>
-          关闭左侧
+          {{ $t('public.closeLeft') }}
         </el-dropdown-item>
         <el-dropdown-item command="closeRighttabs">
           <vab-icon :icon="['fas', 'arrow-alt-circle-right']"></vab-icon>
-          关闭右侧
+          {{ $t('public.closeRight') }}
         </el-dropdown-item>
         <el-dropdown-item command="closeAlltabs">
           <vab-icon :icon="['fas', 'ban']"></vab-icon>
-          关闭全部
+          {{ $t('public.closeAll') }}
         </el-dropdown-item>
       </el-dropdown-menu>
     </el-dropdown>
@@ -106,6 +106,9 @@
       //console.log(this.visitedRoutes);
     },
     methods: {
+      routeTitle(meta){
+        return this.$i18n.locale === 'zh' ? meta.title : (meta.enTitle || 'Default')
+      },
       async handleTabRemove(tabActive) {
         let view
         this.visitedRoutes.forEach((item, index) => {

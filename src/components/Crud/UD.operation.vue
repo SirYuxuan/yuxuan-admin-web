@@ -22,14 +22,14 @@
     >
       <p>{{ msg }}</p>
       <div style="margin: 0; text-align: right">
-        <el-button size="mini" type="text" @click="doCancel">取消</el-button>
+        <el-button size="mini" type="text" @click="doCancel">{{ $t('public.cancel') }}</el-button>
         <el-button
           :loading="crud.dataStatus[crud.getDataId(data)].delete === 2"
           type="primary"
           size="mini"
           @click="crud.doDelete(data)"
         >
-          确定
+          {{ $t('public.confirm') }}
         </el-button>
       </div>
       <el-button
@@ -68,7 +68,9 @@
       },
       msg: {
         type: String,
-        default: '确定删除本条数据吗？',
+        default: function (){
+          return this.$t('crud.delOneTips')
+        },
       },
     },
     data() {

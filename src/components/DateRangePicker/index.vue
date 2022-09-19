@@ -1,7 +1,7 @@
 <script>
   import { DatePicker, DatePickerOptions } from 'element-ui'
   import { calendarShortcuts } from '@/utils/shortcuts'
-
+  import i18n from '@/plugins/i18n'
   export default {
     name: 'DateRangePicker',
     mixins: [DatePicker],
@@ -34,11 +34,11 @@
       },
       startPlaceholder: {
         type: String,
-        default: '开始日期',
+        default: i18n.t('crud.startTimePlaceholder'),
       },
       endPlaceholder: {
         type: String,
-        default: '结束日期',
+        default: i18n.t('crud.endTimePlaceholder'),
       },
     },
   }

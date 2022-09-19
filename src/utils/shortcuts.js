@@ -1,8 +1,8 @@
 import Date from './datetime.js'
-
+import i18n from '@/plugins/i18n'
 export const calendarBaseShortcuts = [
   {
-    text: '今天',
+    text: i18n.t('time.today'),
     onClick(picker) {
       const startTime = new Date(new Date().setHours(0, 0, 0))
       const endTime = new Date(new Date().setHours(23, 59, 59))
@@ -10,7 +10,7 @@ export const calendarBaseShortcuts = [
     },
   },
   {
-    text: '昨天',
+    text: i18n.t('time.yesterday'),
     onClick(picker) {
       const startTime = new Date(new Date().daysAgo(1).setHours(0, 0, 0))
       const endTime = new Date(new Date().daysAgo(1).setHours(23, 59, 59))
@@ -18,7 +18,7 @@ export const calendarBaseShortcuts = [
     },
   },
   {
-    text: '最近一周',
+    text: i18n.t('time.recentWeek'),
     onClick(picker) {
       const startTime = new Date(new Date().daysAgo(7).setHours(0, 0, 0))
       const endTime = new Date(new Date().setHours(23, 59, 59))
@@ -26,7 +26,7 @@ export const calendarBaseShortcuts = [
     },
   },
   {
-    text: '最近30天',
+    text: i18n.t('time.last30Days'),
     onClick(picker) {
       const startTime = new Date(new Date().daysAgo(30).setHours(0, 0, 0))
       const endTime = new Date(new Date().setHours(23, 59, 59))
@@ -34,7 +34,7 @@ export const calendarBaseShortcuts = [
     },
   },
   {
-    text: '这个月',
+    text: i18n.t('time.thisMonth'),
     onClick(picker) {
       const startTime = new Date(new Date().monthBegin().setHours(0, 0, 0))
       const endTime = new Date(new Date().setHours(23, 59, 59))
@@ -42,7 +42,7 @@ export const calendarBaseShortcuts = [
     },
   },
   {
-    text: '本季度',
+    text: i18n.t('time.thisQuarter'),
     onClick(picker) {
       const startTime = new Date(new Date().quarterBegin().setHours(0, 0, 0))
       const endTime = new Date(new Date().setHours(23, 59, 59))
@@ -53,7 +53,7 @@ export const calendarBaseShortcuts = [
 
 export const calendarMoveShortcuts = [
   {
-    text: '‹ 往前一天 ',
+    text: i18n.t('time.oneDayAhead'),
     onClick(picker) {
       let startTime = new Date(new Date().daysAgo(1).setHours(0, 0, 0))
       let endTime = new Date(new Date().daysAgo(1).setHours(23, 59, 59))
@@ -66,7 +66,7 @@ export const calendarMoveShortcuts = [
     },
   },
   {
-    text: ' 往后一天 ›',
+    text: i18n.t('time.theDayAfter'),
     onClick(picker) {
       let startTime = new Date(new Date().setHours(0, 0, 0))
       let endTime = new Date(new Date().setHours(23, 59, 59))
@@ -79,7 +79,7 @@ export const calendarMoveShortcuts = [
     },
   },
   {
-    text: '« 往前一周 ',
+    text: i18n.t('time.oneWeekAhead'),
     onClick(picker) {
       let startTime = new Date(new Date().setHours(0, 0, 0))
       let endTime = new Date(new Date().setHours(23, 59, 59))
@@ -100,7 +100,7 @@ export const calendarMoveShortcuts = [
     },
   },
   {
-    text: ' 往后一周 »',
+    text: i18n.t('time.theWeekAfter'),
     onClick(picker) {
       let startTime = new Date(new Date().setHours(0, 0, 0))
       let endTime = new Date(new Date().setHours(23, 59, 59))

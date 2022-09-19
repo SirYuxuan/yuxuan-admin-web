@@ -11,7 +11,6 @@
     watch: {
       '$i18n.locale'(newVal, oldVal) {
         if (newVal !== oldVal) {
-          this.reload()
         }
       },
     },

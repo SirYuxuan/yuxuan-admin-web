@@ -33,7 +33,7 @@
               @openSetting="openSetting"
             />
             <vab-icon
-              title="重载路由"
+              :title="$t('public.reloadRoute')"
               :pulse="pulse"
               :icon="['fas', 'redo']"
               @click="refreshRoute"

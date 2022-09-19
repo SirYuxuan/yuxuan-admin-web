@@ -4,14 +4,14 @@
       <!--<el-avatar class="user-avatar" :src="avatar"></el-avatar>-->
       <img class="user-avatar" :src="avatar" alt="" />
       <div class="user-name">
-        {{ username }}
+        {{ nickName }}
         <i class="el-icon-arrow-down el-icon--right"></i>
       </div>
     </span>
 
     <el-dropdown-menu slot="dropdown">
-      <el-dropdown-item command="personalCenter">个人资料</el-dropdown-item>
-      <el-dropdown-item command="logout" divided>退出登录</el-dropdown-item>
+      <el-dropdown-item command="personalCenter">{{ $t('public.personalCenter') }}</el-dropdown-item>
+      <el-dropdown-item command="logout" divided>{{ $t('public.logout') }}</el-dropdown-item>
     </el-dropdown-menu>
   </el-dropdown>
 </template>
@@ -25,7 +25,7 @@
     computed: {
       ...mapGetters({
         avatar: 'user/avatar',
-        username: 'user/username',
+        nickName: 'user/nickName',
       }),
     },
     methods: {

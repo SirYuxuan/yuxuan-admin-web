@@ -15,16 +15,6 @@ export const constantRoutes = [
     hidden: true,
   },
   {
-    path: '/showResult',
-    component: () => import('@/views/showResult'),
-    hidden: true,
-  },
-  {
-    path: '/market',
-    component: () => import('@/views/market/4h'),
-    hidden: true,
-  },
-  {
     path: '/register',
     component: () => import('@/views/register/index'),
     hidden: true,
@@ -52,6 +42,7 @@ export const constantRoutes = [
         component: (resolve) => require([`@/views/index/index`], resolve),
         meta: {
           title: '首页',
+          enTitle: 'Home',
           icon: 'home-2-line',
           affix: true,
         },
@@ -68,21 +59,7 @@ export const constantRoutes = [
         path: 'center',
         component: (resolve) => require(['@/views/system/user/center'], resolve),
         name: '个人中心',
-        meta: { title: '个人中心' ,icon: 'user', }
-      }
-    ]
-  },
-  {
-    path: '/comment',
-    component: (resolve) => require(['@/layouts'], resolve),
-    hidden: true,
-    redirect: 'noredirect',
-    children: [
-      {
-        path: 'details',
-        component: (resolve) => require(['@/views/order/comment'], resolve),
-        name: '订单交流',
-        meta: { title: '订单交流' ,icon: 'user', }
+        meta: { title: '个人中心',enTitle: 'User Center' ,icon: 'user', }
       }
     ]
   }

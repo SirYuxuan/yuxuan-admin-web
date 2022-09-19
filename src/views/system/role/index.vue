@@ -8,8 +8,8 @@
           v-model="query.blurry"
           size="small"
           clearable
-          placeholder="输入名称或者描述搜索"
-          style="width: 200px"
+          :placeholder="$t('crud.queryTips')"
+          style="width: 250px"
           class="filter-item"
           @keyup.enter.native="crud.toQuery"
         />
@@ -33,7 +33,7 @@
       >
         <el-card class="box-card" shadow="never">
           <div slot="header" class="clearfix">
-            <span class="role-span">角色列表</span>
+            <span class="role-span">{{ $t('view.roleManager.listTitle') }}</span>
           </div>
           <el-table
             ref="table"
@@ -45,20 +45,24 @@
             @current-change="handleCurrentChange"
           >
             <el-table-column type="selection" width="55" />
-            <el-table-column prop="name" label="名称" />
+            <el-table-column prop="name" :label="$t('view.roleManager.roleName')">
+              <template slot-scope="scope">
+                {{ $i18n.locale === 'zh' ? scope.row.name : scope.row.enName }}
+              </template>
+            </el-table-column>
             <el-table-column
               :show-overflow-tooltip="true"
               prop="remark"
-              label="描述"
+              :label="$t('view.roleManager.remark')"
             />
             <el-table-column
               :show-overflow-tooltip="true"
               width="165px"
               prop="createTime"
-              label="创建日期"
+              :label="$t('public.createTime')"
             />
             <el-table-column
-              label="操作"
+              :label="$t('public.op')"
               width="130px"
               align="center"
               fixed="right"
@@ -79,10 +83,10 @@
             <el-tooltip
               class="item"
               effect="dark"
-              content="选择指定角色分配菜单"
+              :content="$t('view.roleManager.selectAssign')"
               placement="top"
             >
-              <span class="role-span">菜单分配</span>
+              <span class="role-span"> {{ $t('view.roleManager.menuAssign') }}</span>
             </el-tooltip>
             <el-button
               v-auth="'role:edit'"
@@ -94,7 +98,7 @@
               type="primary"
               @click="saveMenu"
             >
-              保存
+              {{ $t('public.save') }}
             </el-button>
           </div>
           <el-tree
@@ -109,7 +113,11 @@
             show-checkbox
             node-key="id"
             @check="menuChange"
-          />
+          >
+            <template slot-scope="{node, data}">
+              {{ $i18n.locale === 'zh' ? data.title : data.enTitle }}
+            </template>
+          </el-tree>
         </el-card>
       </el-col>
     </el-row>
@@ -120,7 +128,7 @@
       :before-close="crud.cancelCU"
       :visible.sync="crud.status.cu > 0"
       :title="crud.status.title"
-      width="520px"
+      width="590px"
     >
       <el-form
         ref="form"
@@ -128,12 +136,15 @@
         :model="form"
         :rules="rules"
         size="small"
-        label-width="80px"
+        label-width="120px"
       >
-        <el-form-item label="角色名称" prop="name">
+        <el-form-item :label="$t('view.roleManager.roleName')" prop="name">
           <el-input v-model="form.name" style="width: 380px" />
         </el-form-item>
-        <el-form-item label="描述信息" prop="remark">
+        <el-form-item :label="$t('view.roleManager.enName')" prop="enName">
+          <el-input v-model="form.enName" style="width: 380px" />
+        </el-form-item>
+        <el-form-item :label="$t('view.roleManager.remark')" prop="remark">
           <el-input
             v-model="form.remark"
             style="width: 380px"
@@ -143,13 +154,13 @@
         </el-form-item>
       </el-form>
       <div slot="footer" class="dialog-footer">
-        <el-button type="text" @click="crud.cancelCU">取消</el-button>
+        <el-button type="text" @click="crud.cancelCU">{{ $t('public.cancel') }}</el-button>
         <el-button
           :loading="crud.status.cu === 2"
           type="primary"
           @click="crud.submitCU"
         >
-          确认
+          {{ $t('public.confirm') }}
         </el-button>
       </div>
     </el-dialog>
@@ -165,6 +176,7 @@
   import DateRangePicker from '@/components/DateRangePicker'
   import Pagination from '@/components/Crud/Pagination'
   import { get } from '@/api/crud/crud'
+  import i18n from '@/plugins/i18n'
   const defaultForm = {
     id: null,
     name: null,
@@ -173,7 +185,7 @@
   export default {
     name: 'Role',
     cruds() {
-      return CRUD({ title: '角色', url: 'role', crudMethod: crudRole })
+      return CRUD({ title: 'view.roleManager.title', url: 'role', crudMethod: crudRole })
     },
     mixins: [presenter(), header(), form(defaultForm), crud()],
     components: {
@@ -183,13 +195,20 @@
       DateRangePicker,
       Pagination,
     },
+    computed:{
+      rules(){
+        return{
+          name: [
+            { required: true, message: i18n.t('view.roleManager.error.name'), trigger: 'blur' }
+          ],
+          enName: [
+            { required: true, message: i18n.t('view.roleManager.error.enName'), trigger: 'blur' }
+          ]
+        }
+      }
+    },
     data() {
       return {
-        rules: {
-          name: [
-            { required: true, message: '请输入名称', trigger: 'blur' }
-          ]
-        },
         defaultProps: {
           children: 'children',
           label: 'title',
@@ -227,7 +246,7 @@
         crudRole
           .editMenu(role)
           .then(() => {
-            this.$baseNotify('保存成功','操作提示')
+            this.$baseNotify(i18n.t('public.saveSuccess'),i18n.t('public.tips'))
             this.menuLoading = false
             this.update()
           })

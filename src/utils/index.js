@@ -5,6 +5,8 @@
  * @param cFormat
  * @returns {string|null}
  */
+import i18n from "@/plugins/i18n";
+
 export function parseTime(time, cFormat) {
   if (arguments.length === 0) {
     return null
@@ -102,12 +104,12 @@ export function paramObj(url) {
   }
   return JSON.parse(
     '{"' +
-      decodeURIComponent(search)
-        .replace(/"/g, '\\"')
-        .replace(/&/g, '","')
-        .replace(/=/g, '":"')
-        .replace(/\+/g, ' ') +
-      '"}'
+    decodeURIComponent(search)
+      .replace(/"/g, '\\"')
+      .replace(/&/g, '","')
+      .replace(/=/g, '":"')
+      .replace(/\+/g, ' ') +
+    '"}'
   )
 }
 
@@ -266,7 +268,6 @@ export const off = (function () {
 })()
 
 
-
 // 下载文件
 export function downloadFile(obj, name, suffix) {
   const url = window.URL.createObjectURL(new Blob([obj]))
@@ -280,3 +281,4 @@ export function downloadFile(obj, name, suffix) {
   document.body.removeChild(link)
 
 }
+

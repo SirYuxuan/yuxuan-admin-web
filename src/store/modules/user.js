@@ -4,6 +4,7 @@
  */
 
 import Vue from 'vue'
+import i18n from '@/plugins/i18n'
 import { getUserInfo, login, logout } from '@/api/system/user'
 import {
   getAccessToken,
@@ -15,13 +16,13 @@ import { title, tokenName } from '@/config'
 
 const state = () => ({
   accessToken: getAccessToken(),
-  username: '',
+  nickName: '',
   avatar: '',
   permissions: [],
 })
 const getters = {
   accessToken: (state) => state.accessToken,
-  username: (state) => state.username,
+  nickName: (state) => state.nickName,
   avatar: (state) => state.avatar,
   permissions: (state) => state.permissions,
 }
@@ -30,8 +31,8 @@ const mutations = {
     state.accessToken = accessToken
     setAccessToken(accessToken)
   },
-  setUsername(state, username) {
-    state.username = username
+  setNickName(state, nickName) {
+    state.nickName = nickName
   },
   setAvatar(state, avatar) {
     state.avatar = avatar
@@ -40,6 +41,7 @@ const mutations = {
     state.permissions = permissions
   },
 }
+
 const actions = {
   setPermissions({ commit }, permissions) {
     commit('setPermissions', permissions)
@@ -61,7 +63,8 @@ const actions = {
           : hour < 18
           ? '下午好'
           : '晚上好'
-      Vue.prototype.$baseNotify(`欢迎登录${title}`, `${thisTime}！`)
+
+      Vue.prototype.$baseNotify(i18n.t('public.welcome',[title]), `${thisTime}！`)
     } else {
       Vue.prototype.$baseMessage(
         `登录接口异常，未正确返回${tokenName}...`,
@@ -75,14 +78,15 @@ const actions = {
       Vue.prototype.$baseMessage('验证失败，请重新登录...', 'error')
       return false
     }
-    let { permissions, nickname, avatar } = data
-    if (permissions && nickname && Array.isArray(permissions)) {
+    let { permissions, nickName, avatar } = data
+    if (permissions && nickName && Array.isArray(permissions)) {
       commit('setPermissions', permissions)
-      commit('setUsername', nickname)
+      commit('setNickName', nickName)
       commit('setAvatar', avatar)
       return permissions
     } else {
       Vue.prototype.$baseMessage('用户信息接口异常', 'error')
+      removeAccessToken()
       return false
     }
   },

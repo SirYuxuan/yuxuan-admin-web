@@ -1,4 +1,5 @@
 import Vue from 'vue'
+import i18n from '@/plugins/i18n'
 import { parseTime, downloadFile } from '@/utils'
 import { get, download } from '@/api/crud/crud'
 
@@ -91,9 +92,9 @@ function CRUD(options) {
       // 标题
       get title() {
         return this.add > CRUD.STATUS.NORMAL
-          ? `新增${crud.title}`
+          ? `${i18n.t('crud.add')} ${i18n.t(crud.title)}`
           : this.edit > CRUD.STATUS.NORMAL
-          ? `编辑${crud.title}`
+          ? `${i18n.t('crud.edit')} ${i18n.t(crud.title)}`
           : crud.title
       },
     },

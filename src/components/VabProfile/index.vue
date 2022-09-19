@@ -8,7 +8,7 @@
     </div>
     <div class="card-content">
       <el-image :src="avatar" class="avatar"></el-image>
-      <div class="username">{{ username }}</div>
+      <div class="username">{{ nickName }}</div>
       <div class="social-icons">
         <a
           v-for="(item, index) in iconArray"
@@ -34,7 +34,7 @@
           return {}
         },
       },
-      username: {
+      nickName: {
         type: String,
         default: '',
       },

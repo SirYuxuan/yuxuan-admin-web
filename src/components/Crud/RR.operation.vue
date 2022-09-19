@@ -8,7 +8,7 @@
       icon="el-icon-search"
       @click="crud.toQuery"
     >
-      搜索
+      {{ $t('crud.query') }}
     </el-button>
     <el-button
       v-if="crud.optShow.reset"
@@ -18,7 +18,7 @@
       icon="el-icon-refresh-left"
       @click="crud.resetQuery()"
     >
-      重置
+      {{ $t('crud.reset') }}
     </el-button>
   </span>
 </template>

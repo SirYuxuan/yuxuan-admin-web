@@ -1,7 +1,7 @@
 <template>
   <el-breadcrumb class="breadcrumb-container" separator=">">
     <el-breadcrumb-item v-for="item in list" :key="item.path">
-      {{ item.meta.title }}
+      {{ routeTitle(item.meta) }}
     </el-breadcrumb-item>
   </el-breadcrumb>
 </template>
@@ -20,6 +20,9 @@
       },
     },
     methods: {
+      routeTitle(meta){
+        return this.$i18n.locale === 'zh' ? meta.title : (meta.enTitle || 'Default')
+      },
       getBreadcrumb() {
         return this.$route.matched.filter(
           (item) => item.name && item.meta.title
