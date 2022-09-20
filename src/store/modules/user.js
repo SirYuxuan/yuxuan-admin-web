@@ -87,6 +87,7 @@ const actions = {
     } else {
       Vue.prototype.$baseMessage('用户信息接口异常', 'error')
       removeAccessToken()
+      await Vue.prototype.$router.push('/login')
       return false
     }
   },

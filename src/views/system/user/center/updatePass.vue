@@ -1,20 +1,20 @@
 <template>
   <div style="display: inline-block">
-    <el-dialog :visible.sync="dialog" :close-on-click-modal="false" :before-close="cancel" :title="title" append-to-body width="500px" @close="cancel">
-      <el-form ref="form" :model="form" :rules="rules" size="small" label-width="88px">
-        <el-form-item label="旧密码" prop="oldPass">
+    <el-dialog :visible.sync="dialog" :close-on-click-modal="false" :before-close="cancel" :title="title" append-to-body width="520px" @close="cancel">
+      <el-form ref="form" :model="form" :rules="rules" size="small" label-width="109px">
+        <el-form-item :label="$t('view.userCenter.oldPass')" prop="oldPass">
           <el-input v-model="form.oldPass" type="password" auto-complete="on" style="width: 370px;" />
         </el-form-item>
-        <el-form-item label="新密码" prop="newPass">
+        <el-form-item :label="$t('view.userCenter.newPass')" prop="newPass">
           <el-input v-model="form.newPass" type="password" auto-complete="on" style="width: 370px;" />
         </el-form-item>
-        <el-form-item label="确认密码" prop="confirmPass">
+        <el-form-item :label="$t('view.userCenter.confPass')" prop="confirmPass">
           <el-input v-model="form.confirmPass" type="password" auto-complete="on" style="width: 370px;" />
         </el-form-item>
       </el-form>
       <div slot="footer" class="dialog-footer">
-        <el-button type="text" @click="cancel">取消</el-button>
-        <el-button :loading="loading" type="primary" @click="doSubmit">确认</el-button>
+        <el-button type="text" @click="cancel">{{ $t('public.cancel') }}</el-button>
+        <el-button :loading="loading" type="primary" @click="doSubmit">{{ $t('public.confirm') }}</el-button>
       </div>
     </el-dialog>
   </div>
@@ -25,28 +25,29 @@ import store from '@/store'
 import { updatePass } from '@/api/system/user'
 import {recordRoute} from "@/config/setting.config";
 import HeyUI from "heyui";
+import i18n from '@/plugins/i18n'
 export default {
   data() {
     const confirmPass = (rule, value, callback) => {
       if (value) {
         if (this.form.newPass !== value) {
-          callback(new Error('两次输入的密码不一致'))
+          callback(new Error(i18n.t('view.userCenter.error.twoPass')))
         } else {
           callback()
         }
       } else {
-        callback(new Error('请再次输入密码'))
+        callback(new Error(i18n.t('view.userCenter.error.repPass')))
       }
     }
     return {
-      loading: false, dialog: false, title: '修改密码', form: { oldPass: '', newPass: '', confirmPass: '' },
+      loading: false, dialog: false, title: this.$t('view.userCenter.updatePassTitle'), form: { oldPass: '', newPass: '', confirmPass: '' },
       rules: {
         oldPass: [
-          { required: true, message: '请输入旧密码', trigger: 'blur' }
+          { required: true, message: i18n.t('view.userCenter.error.oldPass'), trigger: 'blur' }
         ],
         newPass: [
-          { required: true, message: '请输入新密码', trigger: 'blur' },
-          { min: 6, max: 20, message: '长度在 6 到 20 个字符', trigger: 'blur' }
+          { required: true, message:  i18n.t('view.userCenter.error.newPass'), trigger: 'blur' },
+          { min: 6, max: 20, message: i18n.t('view.userCenter.error.lenPass'), trigger: 'blur' }
         ],
         confirmPass: [
           { required: true, validator: confirmPass, trigger: 'blur' }
@@ -65,7 +66,7 @@ export default {
           updatePass(this.form).then(res => {
             this.resetForm()
             HeyUI.$Message({
-              text: '密码修改成功，请重新登录',
+              text: i18n.t('view.userCenter.passSuccess'),
               type: 'success',
             })
             setTimeout(() => {

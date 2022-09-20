@@ -1,28 +1,28 @@
 const en = {
-  i18n:{
+  i18n: {
     zh: '中文',
     en: 'English',
     msg: 'Switch Language Success',
   },
-  user:{
+  user: {
     success: 'NORMAL',
-    danger:'FROZEN',
+    danger: 'FROZEN',
     warning: 'LOCKING',
   },
-  time:{
+  time: {
     today: 'Today',
     yesterday: 'Yesterday',
     recentWeek: 'Recent Week',
     last30Days: 'Last 30 days',
     thisMonth: 'This month',
     thisQuarter: 'This quarter',
-    oneDayAhead:'< One day ahead',
+    oneDayAhead: '< One day ahead',
     theDayAfter: 'The day after >',
     oneWeekAhead: '< One week ahead',
     theWeekAfter: 'The week after >',
 
   },
-  crud:{
+  crud: {
     startTimePlaceholder: 'StartTime',
     endTimePlaceholder: 'EndTime',
     queryTips: 'Enter name or remark to search',
@@ -38,11 +38,11 @@ const en = {
     delOneTips: 'Are you sure you want to delete this data?',
     fuzzySearch: 'Fuzzy Search',
   },
-  public:{
+  public: {
     yes: 'Yes',
     no: 'No',
     saveSuccess: 'Save success',
-    pleaseSelect:'Please select',
+    pleaseSelect: 'Please select',
     welcome: 'Welcome Login {0}',
     operationTips: 'Operation Tips',
     confirm: 'Confirm',
@@ -75,13 +75,13 @@ const en = {
     password: 'Please enter your password',
     login: 'Login',
     register: 'Register',
-    error:{
+    error: {
       username: 'Username cannot be empty',
       password: 'Password cannot be less than 6 digits',
     }
   },
-  view:{
-    userManager:{
+  view: {
+    userManager: {
       title: 'User',
       queryTips: 'Enter name or email to search',
       userName: 'UserName',
@@ -93,7 +93,7 @@ const en = {
       role: 'Role',
       loginTime: 'Login Time',
       loginCity: 'Login City',
-      error:{
+      error: {
         username: 'Please enter your username',
         usernameUse: 'Username has been used',
         email: 'Please enter your email address',
@@ -103,7 +103,7 @@ const en = {
         role: 'Please select the user role'
       }
     },
-    roleManager:{
+    roleManager: {
       listTitle: 'Role List',
       title: 'Role',
       roleName: 'RoleName',
@@ -111,24 +111,24 @@ const en = {
       remark: 'Describe',
       menuAssign: 'Menu assign',
       selectAssign: 'Select Assign Role Assignment Menu',
-      error:{
+      error: {
         name: 'Please enter your role name',
         enName: 'Please enter the English name of the role',
       },
     },
-    menuMan:{
+    menuMan: {
       crudTitle: 'Menu',
-      icon:'Icon',
+      icon: 'Icon',
       title: 'Menu Title',
       enTitle: 'English Title',
       sort: 'Sort',
-      permissionMark:'Permission Mark',
-      component:'Component Path',
-      componentName:'Component Name',
-      link:'External Links',
-      cache:'Cache',
+      permissionMark: 'Permission Mark',
+      component: 'Component Path',
+      componentName: 'Component Name',
+      link: 'External Links',
+      cache: 'Cache',
       visible: 'Visible',
-      delTips:'If there are subordinate nodes, delete them together, this operation cannot be undone!',
+      delTips: 'If there are subordinate nodes, delete them together, this operation cannot be undone!',
       menuType: 'Menu Type',
       catalog: 'Catalog',
       menu: 'Menu',
@@ -139,7 +139,7 @@ const en = {
       routePath: 'Route Path',
       superiorMenu: 'Superior Menu',
       topMenu: 'Top Menu',
-      error:{
+      error: {
         path: 'routing path cannot be empty',
         title: 'Title cannot be empty',
         enTitle: 'English title cannot be empty',
@@ -147,6 +147,79 @@ const en = {
         superiorMenu: 'The parent menu cannot be empty',
         component: 'Component path cannot be empty'
       }
+
+    },
+    userCenter: {
+      title: 'Personal Information',
+      upload: 'Click to upload avatar',
+      account: 'Login Account',
+      nickName: 'NickName',
+      phone: 'Phone',
+      email: 'Email',
+      setting: 'Security Settings',
+      updatePassword: 'Password',
+      updateEmail: 'Email',
+      info: 'User Information',
+      userNick: 'User nicknames are not used as login',
+      saveConfig: 'Save config',
+      opLog: 'Operation Log',
+      action: 'Action',
+      ipSource: 'IP Source',
+      browser: 'Browser',
+      time: 'Request Time',
+      city: 'City',
+      details: 'Details',
+      requestParam: 'Request Param',
+      returnVal: 'Return Value',
+      newEmail: 'New Email',
+      code: 'Code',
+      password: 'Cur Password',
+      error: {
+        email: 'New email address cannot be empty',
+        email1: 'The new email address cannot be the same as the old one',
+        emailUse: 'Email is already in use',
+        emailFmt: 'Incorrect email format',
+        password: 'Current password cannot be empty',
+        oldPass: 'Please enter the old password',
+        newPass: 'Please enter a new password',
+        twoPass: 'The password entered twice does not match',
+        repPass: 'Please enter your password again',
+        lenPass: '6 to 20 characters in length',
+        phone: 'Cell phone number cannot be empty',
+        twoPhone: 'The new cell phone number can not be the same as the old cell phone number',
+        usePhone: 'The phone has been used',
+        fmtPhone: 'Wrong format of cell phone number',
+        phoneCode: 'SMS verification code input error',
+
+
+
+      },
+      editEmail: 'Edit Email',
+      getCode: 'Get Code',
+      codeNull: 'Code cannot be empty',
+      phoneCodeNull: 'Phone code cannot be empty',
+      codeSend: 'Verification code is being sent',
+      codeSendSuccess: 'Send successfully, the verification code is valid for 30 minutes',
+      ris: 'Resend in seconds',
+      resend: 'Resend',
+      emailChange: 'Email change successfully',
+      phoneChange: 'Phone change successfully',
+      oldPass: 'Old Pass',
+      newPass: 'New Pass',
+      confPass: 'Confirm Pass',
+      updatePassTitle: 'Update Password',
+      updatePhoneTitle: 'Update Phone',
+      passSuccess: 'Password changed successfully, please log in again',
+      verifyOriginalPhone: 'Verify original phone',
+      bindNewPhone:'Bind a new phone',
+      modificationCompleted: 'Modification completed',
+      phoneCode:'Phone code',
+      previousStep: 'Previous step',
+      nextStep: 'Next step',
+      close: 'Close',
+
+
+
 
     }
   }

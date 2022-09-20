@@ -4,12 +4,12 @@
       <el-col :xs="24" :sm="24" :md="8" :lg="6" :xl="5" style="margin-bottom: 10px">
         <el-card class="box-card">
           <div slot="header" class="clearfix">
-            <span>个人信息</span>
+            <span>{{ $t('view.userCenter.title') }}</span>
           </div>
           <div>
             <div style="text-align: center">
               <div class="el-upload">
-                <img :src="user.avatar ?  user.avatar : Avatar" title="点击上传头像" class="avatar" @click="toggleShow">
+                <img :src="user.avatar ?  user.avatar : Avatar" :title="$t('view.userCenter.upload')" class="avatar" @click="toggleShow">
                 <myUpload
                   field="attach"
                   :model-value="modelValue"
@@ -26,17 +26,16 @@
                 <vab-remix-icon
                  icon-class="username"
                   class="vab-remix-icon"
-                /> 登录账号<div class="user-right">{{ user.username }}</div></div></li>
+                /> {{ $t('view.userCenter.account') }}<div class="user-right">{{ user.username }}</div></div></li>
               <li><div style="height: 100%">
-                <vab-remix-icon icon-class="nickname" class="vab-remix-icon" /> 用户昵称 <div class="user-right">{{ user.nickname }}</div></div></li>
-              <li><div style="height: 100%"><vab-remix-icon icon-class="dept" class="vab-remix-icon" /> 所属部门 <div class="user-right"> {{ user.deptName }}</div></div></li>
-              <li><div style="height: 100%"><vab-remix-icon icon-class="phone" class="vab-remix-icon" /> 手机号码 <div class="user-right">{{ user.phone }}</div></div></li>
-              <li><div style="height: 100%"><vab-remix-icon icon-class="email" class="vab-remix-icon" /> 用户邮箱 <div class="user-right">{{ user.email }}</div></div></li>
+                <vab-remix-icon icon-class="nickname" class="vab-remix-icon" /> {{ $t('view.userCenter.nickName') }} <div class="user-right">{{ user.nickName }}</div></div></li>
+              <li><div style="height: 100%"><vab-remix-icon icon-class="phone" class="vab-remix-icon" /> {{ $t('view.userCenter.phone') }} <div class="user-right">{{ user.phone }}</div></div></li>
+              <li><div style="height: 100%"><vab-remix-icon icon-class="email" class="vab-remix-icon" /> {{ $t('view.userCenter.email') }} <div class="user-right">{{ user.email }}</div></div></li>
               <li>
-                <vab-remix-icon icon-class="anquan" class="vab-remix-icon" /> 安全设置
+                <vab-remix-icon icon-class="anquan" class="vab-remix-icon" /> {{ $t('view.userCenter.setting') }}
                 <div class="user-right">
-                  <a @click="$refs.pass.dialog = true" style="margin-right: 5px">修改密码</a>
-                  <a @click="$refs.email.dialog = true">修改邮箱</a>
+                  <a @click="$refs.pass.dialog = true" style="margin-right: 5px">{{ $t('view.userCenter.updatePassword') }}</a>
+                  <a @click="$refs.email.dialog = true">{{ $t('view.userCenter.updateEmail') }}</a>
                 </div>
               </li>
             </ul>
@@ -47,36 +46,41 @@
         <!--    用户资料    -->
         <el-card class="box-card">
           <el-tabs v-model="activeName" @tab-click="handleClick">
-            <el-tab-pane label="用户资料" name="first">
-              <el-form ref="form" :model="form" :rules="rules" style="margin-top: 10px;" size="small" label-width="65px">
-                <el-form-item label="昵称" prop="nickname">
-                  <el-input v-model="form.nickname" style="width: 35%" />
-                  <span style="margin-left: 10px;color: #C0C0C0;">用户昵称不作为登录使用</span>
+            <el-tab-pane :label="$t('view.userCenter.info')" name="first">
+              <el-form ref="form" :model="form" :rules="rules" style="margin-top: 10px;" size="small" label-width="80px">
+                <el-form-item :label="$t('view.userCenter.nickName')" prop="nickName">
+                  <el-input v-model="form.nickName" style="width: 35%" />
+                  <span style="margin-left: 10px;color: #C0C0C0;">{{ $t('view.userCenter.userNick') }}</span>
                 </el-form-item>
-                <el-form-item label="手机号" >
+
+                <el-form-item :label="$t('view.userCenter.phone')" >
                   <el-input v-model="form.phone" style="width: 35%;" disabled/>
                   <el-button type="primary" icon="el-icon-edit" @click="$refs.phone.dialog = true"></el-button>
                 </el-form-item>
-                <el-form-item label="性别">
-                  <el-radio-group v-model="form.sex" style="width: 250px">
-                    <el-radio :label="1">男</el-radio>
-                    <el-radio :label="0">女</el-radio>
-                    <el-radio :label="2">保密</el-radio>
+                <el-form-item :label="$t('view.userManager.sex')">
+                  <el-radio-group v-model="form.sex" style="width: 350px">
+                    <el-radio :label="1">{{ $t('public.male') }}</el-radio>
+                    <el-radio :label="0">{{ $t('public.female') }}</el-radio>
+                    <el-radio :label="2">{{ $t('public.unknown') }}</el-radio>
                   </el-radio-group>
                 </el-form-item>
                 <el-form-item label="">
-                  <el-button :loading="saveLoading" size="mini" type="primary" @click="doSubmit">保存配置</el-button>
+                  <el-button :loading="saveLoading" size="mini" type="primary" @click="doSubmit">{{ $t('view.userCenter.saveConfig') }}</el-button>
                 </el-form-item>
               </el-form>
             </el-tab-pane>
             <!--    操作日志    -->
-            <el-tab-pane label="操作日志" name="second">
+            <el-tab-pane :label="$t('view.userCenter.opLog')" name="second">
               <el-table v-loading="loading" :data="data" style="width: 100%;">
-                <el-table-column prop="title" label="行为" />
+                <el-table-column prop="title" :label="$t('view.userCenter.action')">
+                  <template slot-scope="scope">
+                    {{ $i18n.locale === 'zh'?scope.row.title:scope.row.enTitle }}
+                  </template>
+                </el-table-column>
                 <el-table-column prop="ip" label="IP" />
-                <el-table-column :show-overflow-tooltip="true" prop="city" label="IP来源" />
-                <el-table-column prop="browser" label="浏览器" />
-                <el-table-column prop="time" label="请求耗时" align="center">
+                <el-table-column :show-overflow-tooltip="true" prop="city" :label="$t('view.userCenter.ipSource')" />
+                <el-table-column prop="browser" :label="$t('view.userCenter.browser')" />
+                <el-table-column prop="time" :label="$t('view.userCenter.time')" align="center">
                   <template slot-scope="scope">
                     <el-tag v-if="scope.row.time <= 300">{{ scope.row.time }}ms</el-tag>
                     <el-tag v-else-if="scope.row.time <= 1000" type="warning">{{ scope.row.time }}ms</el-tag>
@@ -87,13 +91,13 @@
                   align="right"
                 >
                   <template slot="header">
-                    <div style="display:inline-block;float: right;cursor: pointer" @click="init">创建日期<i class="el-icon-refresh" style="margin-left: 40px" /></div>
+                    <div style="display:inline-block;float: right;cursor: pointer" @click="init">{{ $t('public.createTime') }}<i class="el-icon-refresh" style="margin-left: 40px" /></div>
                   </template>
                   <template slot-scope="scope">
                     <span>{{ scope.row.createTime }}</span>
                   </template>
                 </el-table-column>
-                <el-table-column  label="操作" align="center">
+                <el-table-column  :label="$t('public.op')" align="center">
                   <template slot-scope="scope">
                     <el-button icon="el-icon-search" size="mini" type="primary" @click="open(scope.row)"></el-button>
                   </template>
@@ -114,13 +118,13 @@
       </el-col>
     </el-row>
     <el-dialog
-      title="详情"
+      :title="$t('view.userCenter.details')"
       :visible.sync="dialogVisible"
       width="30%">
 
       <el-collapse accordion v-model="detailsActiveName">
 
-        <el-collapse-item title="请求参数" name="param">
+        <el-collapse-item :title="$t('view.userCenter.requestParam')" name="param">
           <el-input
             type="textarea"
             :rows="3"
@@ -128,7 +132,7 @@
             v-model="param">
           </el-input>
         </el-collapse-item>
-        <el-collapse-item title="返回值" name="body">
+        <el-collapse-item :title="$t('view.userCenter.returnVal')"  name="body">
           <el-input
             type="textarea"
             :rows="3"
@@ -136,11 +140,19 @@
             v-model="body">
           </el-input>
         </el-collapse-item>
+        <el-collapse-item title="User Agent" name="UserAgent">
+          <el-input
+            type="textarea"
+            :rows="3"
+            disabled
+            v-model="userAgent">
+          </el-input>
+        </el-collapse-item>
       </el-collapse>
 
       <span slot="footer" class="dialog-footer">
-    <el-button @click="dialogVisible = false">取 消</el-button>
-    <el-button type="primary" @click="dialogVisible = false">确 定</el-button>
+    <el-button @click="dialogVisible = false">{{ $t('public.cancel') }}</el-button>
+    <el-button type="primary" @click="dialogVisible = false">{{ $t('public.confirm') }}</el-button>
   </span>
     </el-dialog>
     <updateEmail ref="email" @setEmail="setEmail" :email="user.email" />
@@ -181,6 +193,9 @@ export default {
       baseURL: baseURL,
       param: null,
       body: null,
+      userAgent: null,
+      clazz: null,
+      method: null,
       dialogVisible: false,
       baseApi: '',
       updateAvatarApi: '',
@@ -224,6 +239,9 @@ export default {
     open(row){
       this.param = row.param;
       this.body = row.body
+      this.userAgent = row.ua
+      this.clazz = row.clazz
+      this.method = row.method
       this.detailsActiveName = 'body'
       this.dialogVisible = true
     },
@@ -237,7 +255,7 @@ export default {
       }
     },
     beforeInit() {
-      this.url = 'log/myLogList'
+      this.url = '/log'
       return true
     },
     cropUploadSuccess(jsonData, field) {
